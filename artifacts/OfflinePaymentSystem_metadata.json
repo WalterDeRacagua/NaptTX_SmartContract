@@ -123,6 +123,49 @@
 			},
 			{
 				"anonymous": false,
+				"inputs": [],
+				"name": "PagoConfirmado",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "bytes32",
+						"name": "pagoId",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "emisor",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "bytes32",
+						"name": "hashPreparado",
+						"type": "bytes32"
+					}
+				],
+				"name": "PagoPreparado",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [],
+				"name": "PagoRevertido",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
 				"inputs": [
 					{
 						"indexed": true,
@@ -145,6 +188,50 @@
 				],
 				"name": "Transfer",
 				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [],
+				"name": "WhitelistConfigurada",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "emisor",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "bytes32",
+						"name": "hashInicial",
+						"type": "bytes32"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "timestamp",
+						"type": "uint256"
+					}
+				],
+				"name": "emisorRegistrado",
+				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "TIMEOUT_PAGO",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
 			},
 			{
 				"inputs": [
@@ -227,6 +314,40 @@
 				"type": "function"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "emisores",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "walletAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "string",
+						"name": "hashActual",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "timestampUltimoPago",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bool",
+						"name": "registrado",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [],
 				"name": "name",
 				"outputs": [
@@ -237,6 +358,128 @@
 					}
 				],
 				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "noncesUsados",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"name": "pagosPendientes",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "idPago",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "emisor",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "receptor",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "hashUsado",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "hashPreparado",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "hashFinal",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "uint256",
+						"name": "timestampPreparacion",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "timestampConfirmacion",
+						"type": "uint256"
+					},
+					{
+						"internalType": "enum OfflinePaymentSystem.Estado",
+						"name": "estado",
+						"type": "uint8"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "transaccionId",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "timestamp",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "nonce",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bytes",
+						"name": "firma",
+						"type": "bytes"
+					}
+				],
+				"name": "registrar",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "hashInicial",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -437,11 +680,11 @@
 	},
 	"sources": {
 		"NapTx.sol": {
-			"keccak256": "0x1d0fca4ac37ab8794218ae4e28ce958eb15f425758d5612ec3c3e3be28020f13",
+			"keccak256": "0xf7c78c79d44ab93e841d931163d8c11174bb7b98fc951bfafe08306916a84ca6",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://d498420f92cb3d25c7291f97c955485ca98c0c2514206f5233ab34b5ed9abc41",
-				"dweb:/ipfs/Qmf1MeL6uMThhcwshdrZqiNh2s4gWRNS3HgBhMfdaPd2xq"
+				"bzz-raw://1489d503bb144dedd94e4d15d169d08e12175dbb71c8875a0cf19a158a9feaea",
+				"dweb:/ipfs/QmSaGFhnB2HALzBMVD18G4n6MTvDrCM5KrXsJMXGKcRbD7"
 			]
 		},
 		"https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/interfaces/draft-IERC6093.sol": {
