@@ -123,15 +123,40 @@
 			},
 			{
 				"anonymous": false,
-				"inputs": [],
-				"name": "PagoConfirmado",
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "emisor",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "bytes32",
+						"name": "deviceId",
+						"type": "bytes32"
+					},
+					{
+						"indexed": false,
+						"internalType": "bytes32",
+						"name": "hashInicial",
+						"type": "bytes32"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "timestamp",
+						"type": "uint256"
+					}
+				],
+				"name": "EmisorRegistrado",
 				"type": "event"
 			},
 			{
 				"anonymous": false,
 				"inputs": [
 					{
-						"indexed": false,
+						"indexed": true,
 						"internalType": "bytes32",
 						"name": "pagoId",
 						"type": "bytes32"
@@ -140,6 +165,55 @@
 						"indexed": true,
 						"internalType": "address",
 						"name": "emisor",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "receptor",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "bytes32",
+						"name": "hashFinal",
+						"type": "bytes32"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "timestamp",
+						"type": "uint256"
+					}
+				],
+				"name": "PagoConfirmado",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "pagoId",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "emisor",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "receptor",
 						"type": "address"
 					},
 					{
@@ -153,6 +227,12 @@
 						"internalType": "bytes32",
 						"name": "hashPreparado",
 						"type": "bytes32"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "timestamp",
+						"type": "uint256"
 					}
 				],
 				"name": "PagoPreparado",
@@ -160,7 +240,38 @@
 			},
 			{
 				"anonymous": false,
-				"inputs": [],
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "pagoId",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "emisor",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "receptor",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "timestamp",
+						"type": "uint256"
+					}
+				],
 				"name": "PagoRevertido",
 				"type": "event"
 			},
@@ -191,12 +302,6 @@
 			},
 			{
 				"anonymous": false,
-				"inputs": [],
-				"name": "WhitelistConfigurada",
-				"type": "event"
-			},
-			{
-				"anonymous": false,
 				"inputs": [
 					{
 						"indexed": true,
@@ -206,9 +311,15 @@
 					},
 					{
 						"indexed": false,
-						"internalType": "bytes32",
-						"name": "hashInicial",
-						"type": "bytes32"
+						"internalType": "address[]",
+						"name": "receptores",
+						"type": "address[]"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256[]",
+						"name": "limites",
+						"type": "uint256[]"
 					},
 					{
 						"indexed": false,
@@ -217,12 +328,25 @@
 						"type": "uint256"
 					}
 				],
-				"name": "emisorRegistrado",
+				"name": "WhitelistConfigurada",
 				"type": "event"
 			},
 			{
 				"inputs": [],
 				"name": "TIMEOUT_PAGO",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "TIMESTAMP_TOLERANCE",
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -316,6 +440,25 @@
 			{
 				"inputs": [
 					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"name": "deviceIdsUsados",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "address",
 						"name": "",
 						"type": "address"
@@ -329,9 +472,9 @@
 						"type": "address"
 					},
 					{
-						"internalType": "string",
+						"internalType": "bytes32",
 						"name": "hashActual",
-						"type": "string"
+						"type": "bytes32"
 					},
 					{
 						"internalType": "uint256",
@@ -342,6 +485,11 @@
 						"internalType": "bool",
 						"name": "registrado",
 						"type": "bool"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "deviceId",
+						"type": "bytes32"
 					}
 				],
 				"stateMutability": "view",
@@ -455,6 +603,11 @@
 			},
 			{
 				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "deviceId",
+						"type": "bytes32"
+					},
 					{
 						"internalType": "uint256",
 						"name": "timestamp",
@@ -680,11 +833,11 @@
 	},
 	"sources": {
 		"NapTx.sol": {
-			"keccak256": "0xf7c78c79d44ab93e841d931163d8c11174bb7b98fc951bfafe08306916a84ca6",
+			"keccak256": "0x0531649ac0d4ba012df06d1b15629e748b0c6c270f281fed1dad074471593309",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://1489d503bb144dedd94e4d15d169d08e12175dbb71c8875a0cf19a158a9feaea",
-				"dweb:/ipfs/QmSaGFhnB2HALzBMVD18G4n6MTvDrCM5KrXsJMXGKcRbD7"
+				"bzz-raw://04186092a7f5a124d6aeb9b0ca1eb39aae8f6f132b74aecb300d6f39ee0b75e0",
+				"dweb:/ipfs/QmVdW7tAHsCXCi2WpJidiz86UHafn44Fpv2BYWE3XDgi6E"
 			]
 		},
 		"https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/interfaces/draft-IERC6093.sol": {
