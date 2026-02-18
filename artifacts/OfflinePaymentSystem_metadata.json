@@ -425,6 +425,39 @@
 				"type": "function"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "address[]",
+						"name": "receptores",
+						"type": "address[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "limites",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256",
+						"name": "timestamp",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "nonce",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bytes",
+						"name": "firma",
+						"type": "bytes"
+					}
+				],
+				"name": "configurarWhitelist",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
 				"inputs": [],
 				"name": "decimals",
 				"outputs": [
@@ -833,11 +866,11 @@
 	},
 	"sources": {
 		"NapTx.sol": {
-			"keccak256": "0x0531649ac0d4ba012df06d1b15629e748b0c6c270f281fed1dad074471593309",
+			"keccak256": "0x6a9186e3f519e81cd8dd0533de2e161ff8c9ee266183f47e307e202150cd61d7",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://04186092a7f5a124d6aeb9b0ca1eb39aae8f6f132b74aecb300d6f39ee0b75e0",
-				"dweb:/ipfs/QmVdW7tAHsCXCi2WpJidiz86UHafn44Fpv2BYWE3XDgi6E"
+				"bzz-raw://51c13ed10d827914e1f1877aae27587dafe0524848f684bef0871a05e09782a6",
+				"dweb:/ipfs/QmThMh2Mrx28D1rVYB5EayEqSCiRma1QFabuFhki18AwFY"
 			]
 		},
 		"https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/interfaces/draft-IERC6093.sol": {

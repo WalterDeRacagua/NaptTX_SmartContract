@@ -104,13 +104,13 @@ contract OfflinePaymentSystem is ERC20 {
         }
 
 
-    /**
-    * En Ethereum, v SIEMPRE debe ser 27 o 28. Pero algunas librerias (como Android KeyStore) generan v como 0 o 1.
-    * Solución:
-    *    Si v = 0 → v = 0 + 27 = 27 
-    *    Si v = 1 → v = 1 + 27 = 28 
-    *    Si v ya es 27 o 28 → No se modifica
-    */
+        /**
+        * En Ethereum, v SIEMPRE debe ser 27 o 28. Pero algunas librerias (como Android KeyStore) generan v como 0 o 1.
+        * Solución:
+        *    Si v = 0 → v = 0 + 27 = 27 
+        *    Si v = 1 → v = 1 + 27 = 28 
+        *    Si v ya es 27 o 28 → No se modifica
+        */
         if (v < 27) {
             v += 27;
         }
@@ -120,6 +120,43 @@ contract OfflinePaymentSystem is ERC20 {
 
         //Extrae el address de el que firmo
         return ecrecover(mensaje, v, r, s);
+    }
+
+    function configurarWhitelist(address[] memory receptores, uint256[] calldata limites,uint256 timestamp, uint256 nonce, bytes calldata firma) external {
+        address emisor = msg.sender;
+
+        require(emisores[emisor].registrado, "No registrado");
+        require(receptores.length == limites.length, "Longitudes diferentes");
+        require(block.timestamp <= timestamp + TIMESTAMP_TOLERANCE, "Timestamp expirado");
+        require(!noncesUsados[emisor][nonce], "Nonce ya usado");
+
+        bytes32 mensaje = keccak256(abi.encodePacked(
+            receptores,
+            limites,
+            timestamp,
+            nonce
+        ));
+
+        address firmante = recuperarFirmante(mensaje, firma);
+        require(firmante == emisor, "Firma invalida");
+
+        uint256 sumaTotal =0;
+        for (uint i =0; i < receptores.length; i++) 
+        {
+            sumaTotal += limites[i];
+        }
+
+        uint256 allowanceActual = allowance(emisor, address(this));
+        require(sumaTotal <= allowanceActual, "Suma > allowance");
+
+        for (uint i =0; i < receptores.length; i++) 
+        {
+            emisores[emisor].whitelist[receptores[i]] = limites[i];
+        }
+
+        noncesUsados[emisor][nonce] = true;
+
+        emit WhitelistConfigurada(emisor, receptores, limites, timestamp);
     }
 
     // =========================
