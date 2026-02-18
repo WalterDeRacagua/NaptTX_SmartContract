@@ -577,7 +577,7 @@
 				"outputs": [
 					{
 						"internalType": "bytes32",
-						"name": "idPago",
+						"name": "pagoId",
 						"type": "bytes32"
 					},
 					{
@@ -627,11 +627,65 @@
 					},
 					{
 						"internalType": "bytes32",
-						"name": "transaccionId",
+						"name": "txId",
 						"type": "bytes32"
 					}
 				],
 				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "hashUsado",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "receptor",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "timestamp",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "nonce",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "deviceId",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "bytes",
+						"name": "firma",
+						"type": "bytes"
+					}
+				],
+				"name": "prepararPago",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "pagoId",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "hashPreparado",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -866,11 +920,11 @@
 	},
 	"sources": {
 		"NapTx.sol": {
-			"keccak256": "0x6a9186e3f519e81cd8dd0533de2e161ff8c9ee266183f47e307e202150cd61d7",
+			"keccak256": "0x30785a9b2299cd2ace13315fba9bd67718473c2f0656f5c925c0e7dad3a8c0ab",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://51c13ed10d827914e1f1877aae27587dafe0524848f684bef0871a05e09782a6",
-				"dweb:/ipfs/QmThMh2Mrx28D1rVYB5EayEqSCiRma1QFabuFhki18AwFY"
+				"bzz-raw://0f00829de07ccc73527cec2cbf2abdb300d84697f77053de6b49cddf3eca7b35",
+				"dweb:/ipfs/QmSw9k4j78WPLUjwBj7dFhx8BPFwhnxbSUJkfyZxtBNjsz"
 			]
 		},
 		"https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/interfaces/draft-IERC6093.sol": {

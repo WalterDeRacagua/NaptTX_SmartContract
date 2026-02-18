@@ -18,7 +18,7 @@ contract OfflinePaymentSystem is ERC20 {
     }
 
     struct PagoPendiente {
-        bytes32 idPago;
+        bytes32 pagoId;
         address emisor;
         address receptor;
         uint256 amount;
@@ -28,7 +28,7 @@ contract OfflinePaymentSystem is ERC20 {
         uint256 timestampPreparacion;
         uint256 timestampConfirmacion;
         Estado estado;
-        bytes32 transaccionId;
+        bytes32 txId;
     }
 
     mapping(address => Emisor) public emisores;
@@ -157,6 +157,64 @@ contract OfflinePaymentSystem is ERC20 {
         noncesUsados[emisor][nonce] = true;
 
         emit WhitelistConfigurada(emisor, receptores, limites, timestamp);
+    }
+
+    function prepararPago(bytes32 hashUsado, uint256 amount, address receptor, uint256 timestamp, uint256 nonce, bytes32 deviceId,
+        bytes calldata firma) external returns (bytes32 pagoId, bytes32 hashPreparado) {
+        
+        bytes32 mensaje = keccak256(abi.encodePacked(
+            hashUsado,
+            amount,
+            receptor,
+            timestamp,
+            nonce,
+            deviceId
+        ));
+
+        address emisor = recuperarFirmante(mensaje, firma);
+
+        require(emisores[emisor].registrado, "No registrado");
+        require(emisores[emisor].hashActual == hashUsado, "Hash invalido");
+        require(emisores[emisor].deviceId == deviceId, "Device invalido");
+        require(block.timestamp <= timestamp + TIMESTAMP_TOLERANCE, "Timestamp expirado");
+        require(!noncesUsados[emisor][nonce], "Nonce ya usado");
+        require(emisores[emisor].whitelist[receptor] >= amount, "Excede limites");
+
+        require(allowance(emisor, address(this)) >= amount, "Allowance insuficiente");
+        require(balanceOf(emisor) >= amount, "Balance insuficiente");
+
+        pagoId = keccak256(abi.encodePacked(
+           emisor,
+           receptor,
+           amount,
+           hashUsado,
+           block.timestamp,
+           nonce
+        ));
+        
+        require(pagosPendientes[pagoId].emisor == address(0), "Pago ya existente");
+
+        hashPreparado = keccak256(abi.encodePacked(
+            hashUsado,
+            "preparado",
+            pagoId,
+            block.timestamp
+        ));
+
+        pagosPendientes[pagoId].pagoId = pagoId;
+        pagosPendientes[pagoId].emisor = emisor;
+        pagosPendientes[pagoId].receptor = receptor;
+        pagosPendientes[pagoId].amount = amount;
+        pagosPendientes[pagoId].hashUsado = hashUsado;
+        pagosPendientes[pagoId].hashPreparado = hashPreparado;
+        pagosPendientes[pagoId].timestampPreparacion = block.timestamp;
+        pagosPendientes[pagoId].estado = Estado.PREPARADO;
+
+        noncesUsados[emisor][nonce] = true;
+
+        emit PagoPreparado(pagoId, emisor, receptor, amount, hashPreparado, timestamp);
+
+        return (pagoId, hashPreparado);
     }
 
     // =========================
