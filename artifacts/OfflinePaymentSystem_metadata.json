@@ -458,6 +458,35 @@
 				"type": "function"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "pagoId",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "hashPreparado",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "bytes",
+						"name": "firmaConfirmacion",
+						"type": "bytes"
+					}
+				],
+				"name": "confirmarPago",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "hashFinal",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
 				"inputs": [],
 				"name": "decimals",
 				"outputs": [
@@ -920,11 +949,11 @@
 	},
 	"sources": {
 		"NapTx.sol": {
-			"keccak256": "0x30785a9b2299cd2ace13315fba9bd67718473c2f0656f5c925c0e7dad3a8c0ab",
+			"keccak256": "0x362977470f2008e5a6349a0a434066e9c8d881fbc837c5005174b075163d80dc",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://0f00829de07ccc73527cec2cbf2abdb300d84697f77053de6b49cddf3eca7b35",
-				"dweb:/ipfs/QmSw9k4j78WPLUjwBj7dFhx8BPFwhnxbSUJkfyZxtBNjsz"
+				"bzz-raw://e652b28041c74b9a0fd213bb9e1d8d4b0aeef4ca73c4846398248c26a7455d5d",
+				"dweb:/ipfs/QmSgFCT3VrcpxzR8VytwCvxMXza7aDJwNq24XaRWzwhREx"
 			]
 		},
 		"https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/interfaces/draft-IERC6093.sol": {

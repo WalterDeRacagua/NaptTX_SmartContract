@@ -217,6 +217,47 @@ contract OfflinePaymentSystem is ERC20 {
         return (pagoId, hashPreparado);
     }
 
+    function confirmarPago(bytes32 pagoId, bytes32 hashPreparado, bytes calldata firmaConfirmacion) external returns (bytes32 hashFinal) {
+        PagoPendiente storage pago = pagosPendientes[pagoId];
+
+        require(pago.emisor != address(0), "Pago no existe");
+        require(pago.estado == Estado.PREPARADO, "Pago no preparado");
+        require(pago.hashPreparado == hashPreparado, "Hash preparado invalido");
+        require(block.timestamp <= pago.timestampPreparacion + TIMEOUT_PAGO, "Pago expirado");
+
+        bytes32 mensaje = keccak256(abi.encodePacked(
+            pagoId,
+            hashPreparado,
+            "confirmar"
+        ));
+
+        address firmante = recuperarFirmante(mensaje, firmaConfirmacion);
+        require(firmante == pago.emisor, "Confirmacion invalida");
+
+        _transfer(pago.emisor, pago.receptor, pago.amount);
+
+        hashFinal = keccak256(abi.encodePacked(
+            pago.hashUsado,
+            pago.amount,
+            pago.receptor,
+            block.timestamp,
+            "confirmado"
+        ));
+
+        emisores[pago.emisor].hashActual = hashFinal;
+        emisores[pago.emisor].timestampUltimoPago = block.timestamp;
+
+        emisores[pago.emisor].whitelist[pago.receptor] -= pago. amount;
+
+        pago.hashFinal = hashFinal;
+        pago.timestampConfirmacion = block.timestamp;
+        pago.estado = Estado.CONFIRMADO;
+
+        emit PagoConfirmado(pagoId, pago.emisor, pago.receptor, pago.amount, hashFinal, block.timestamp);
+
+        return hashFinal;
+    }
+
     // =========================
     // EVENTOS
     // =========================
