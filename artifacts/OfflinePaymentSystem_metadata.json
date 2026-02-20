@@ -597,6 +597,64 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address",
+						"name": "emisor",
+						"type": "address"
+					}
+				],
+				"name": "obtenerEstadoEmisor",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "hashActual",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "bool",
+						"name": "registrado",
+						"type": "bool"
+					},
+					{
+						"internalType": "uint256",
+						"name": "timestampUltimoPago",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "deviceId",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "emisor",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "receptor",
+						"type": "address"
+					}
+				],
+				"name": "obtenerLimiteWhitelist",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "bytes32",
 						"name": "",
 						"type": "bytes32"
@@ -748,6 +806,19 @@
 						"type": "bytes32"
 					}
 				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "pagoId",
+						"type": "bytes32"
+					}
+				],
+				"name": "revertirPago",
+				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
 			},
@@ -949,11 +1020,11 @@
 	},
 	"sources": {
 		"NapTx.sol": {
-			"keccak256": "0x362977470f2008e5a6349a0a434066e9c8d881fbc837c5005174b075163d80dc",
+			"keccak256": "0x26a1b95c9014a798323647a38853de31ed20b6c07e1f186bda8386f6d269f2c8",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://e652b28041c74b9a0fd213bb9e1d8d4b0aeef4ca73c4846398248c26a7455d5d",
-				"dweb:/ipfs/QmSgFCT3VrcpxzR8VytwCvxMXza7aDJwNq24XaRWzwhREx"
+				"bzz-raw://5b8e086a6278c6e1804a12dfe10be82e2be5a4acd32cfe2f9eaf8bb7ec62bed0",
+				"dweb:/ipfs/QmZUGV35fa2Yf7qC9rVAC1m6x26Vib7qcYHVKGs4DbDcAw"
 			]
 		},
 		"https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/interfaces/draft-IERC6093.sol": {

@@ -258,9 +258,30 @@ contract OfflinePaymentSystem is ERC20 {
         return hashFinal;
     }
 
-    // =========================
+    function revertirPago(bytes32 pagoId) external {
+        PagoPendiente storage pago = pagosPendientes[pagoId];
+
+        require(pago.emisor != address(0), "Pago no existe");
+        require(pago.estado == Estado.PREPARADO, "Pago no preparado");
+        require(block.timestamp > pago.timestampPreparacion + TIMEOUT_PAGO, "Pago no expirado aun");
+
+        pago.estado = Estado.REVERTIDO;
+        
+
+        emit PagoRevertido(pagoId, pago.emisor, pago.receptor, pago.amount, block.timestamp);
+    }
+
+    function obtenerEstadoEmisor(address emisor) external view returns (bytes32 hashActual, bool registrado, uint256 timestampUltimoPago, bytes32 deviceId) {
+        Emisor storage e = emisores[emisor];
+
+        return (e.hashActual, e.registrado, e.timestampUltimoPago, e.deviceId);
+    }
+
+    function obtenerLimiteWhitelist(address emisor, address receptor) external view returns (uint256) {
+        return emisores[emisor].whitelist[receptor];
+    }
+
     // EVENTOS
-    // =========================
     event EmisorRegistrado(address indexed emisor, bytes32 deviceId, bytes32 hashInicial, uint256 timestamp);
     event PagoPreparado(bytes32 indexed pagoId, address indexed emisor, address indexed receptor, uint256 amount, bytes32 hashPreparado, uint256 timestamp);
     event PagoConfirmado(bytes32 indexed pagoId, address indexed emisor, address indexed receptor, uint256 amount, bytes32 hashFinal,uint256 timestamp);
