@@ -43,7 +43,7 @@ contract OfflinePaymentSystem is ERC20 {
 
 
     // =========================
-    // FUNCIONES - CASOS DE USO --> es pure porque no lle ni modifica datos de la blockchain.
+    // FUNCIONES - CASOS DE USO
     // =========================
     function registrar(bytes32 deviceId, uint256 timestamp, uint256 nonce, bytes calldata firma) external returns (bytes32 hashInicial){
         address emisor = msg.sender;
@@ -179,7 +179,6 @@ contract OfflinePaymentSystem is ERC20 {
         require(block.timestamp <= timestamp + TIMESTAMP_TOLERANCE, "Timestamp expirado");
         require(!noncesUsados[emisor][nonce], "Nonce ya usado");
         require(emisores[emisor].whitelist[receptor] >= amount, "Excede limites");
-
         require(allowance(emisor, address(this)) >= amount, "Allowance insuficiente");
         require(balanceOf(emisor) >= amount, "Balance insuficiente");
 
