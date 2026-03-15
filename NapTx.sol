@@ -239,7 +239,7 @@ contract OfflinePaymentSystem is ERC20 {
             pago.hashUsado,
             pago.amount,
             pago.receptor,
-            block.timestamp,
+            pago.timestampPreparacion,  
             "confirmado"
         ));
 
