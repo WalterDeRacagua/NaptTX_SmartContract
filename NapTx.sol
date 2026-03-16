@@ -211,7 +211,7 @@ contract OfflinePaymentSystem is ERC20 {
 
         noncesUsados[emisor][nonce] = true;
 
-        emit PagoPreparado(pagoId, emisor, receptor, amount, hashPreparado, timestamp);
+        emit PagoPreparado(pagoId, emisor, receptor, amount, hashPreparado, block.timestamp);
 
         return (pagoId, hashPreparado);
     }

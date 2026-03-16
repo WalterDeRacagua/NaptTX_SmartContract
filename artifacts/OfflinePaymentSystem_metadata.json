@@ -1020,11 +1020,11 @@
 	},
 	"sources": {
 		"NapTx.sol": {
-			"keccak256": "0xaa2bb3f22ccb495f074de92dcc30646bc06b912e90274df817ae946c1f6b9498",
+			"keccak256": "0x240b928c946b92a7661cb67a1f5bb5d9aa44ce484fc6e2f3524d04e787122f28",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://2ce4bd6fcca829e94aa28550bc2a13b3fae3c41f0979c6f492c47ffbec5aa93a",
-				"dweb:/ipfs/QmaJRGdpytsnsFSMJJpdKUHhA6ZanHpZBbvf58EuT3hZ4U"
+				"bzz-raw://ecb647eed50fc2a11be08355120e797e032a81a7ab0c8653f3a0ee78d5162d8f",
+				"dweb:/ipfs/QmWt2gAjT9qtvubFoucVnYbhu4j2K6wR6A6VSKsvbd8pwG"
 			]
 		},
 		"https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/interfaces/draft-IERC6093.sol": {
