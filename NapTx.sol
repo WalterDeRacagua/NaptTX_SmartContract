@@ -246,7 +246,10 @@ contract OfflinePaymentSystem is ERC20 {
         emisores[pago.emisor].hashActual = hashFinal;
         emisores[pago.emisor].timestampUltimoPago = block.timestamp;
 
-        emisores[pago.emisor].whitelist[pago.receptor] -= pago. amount;
+        emisores[pago.emisor].whitelist[pago.receptor] -= pago.amount;
+
+        require(allowance(pago.emisor, address(this)) >= pago.amount, "Allowance insuficiente");
+        _approve(pago.emisor, address(this), allowance(pago.emisor, address(this)) - pago.amount);
 
         pago.hashFinal = hashFinal;
         pago.timestampConfirmacion = block.timestamp;
@@ -278,6 +281,21 @@ contract OfflinePaymentSystem is ERC20 {
 
     function obtenerLimiteWhitelist(address emisor, address receptor) external view returns (uint256) {
         return emisores[emisor].whitelist[receptor];
+    }
+
+    function transferFrom(address , address , uint256 ) public virtual override returns (bool) { 
+        revert("transferFrom deshabilitado - el sistema usa _transfer internamente");
+    }
+
+    function transfer(address , uint256 ) public virtual override returns (bool) {
+        revert("transfer deshabilitado - usar sistema de pagos offline");
+    }
+    function increaseAllowance(address , uint256 ) public pure returns (bool) {
+        revert("Use configurarWhitelist para gestionar allowance");
+    }
+
+    function decreaseAllowance(address , uint256 ) public pure returns (bool) {
+        revert("Use configurarWhitelist para gestionar allowance");
     }
 
     // EVENTOS
