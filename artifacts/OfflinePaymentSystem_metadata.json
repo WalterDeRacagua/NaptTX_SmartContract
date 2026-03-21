@@ -127,6 +127,25 @@
 					{
 						"indexed": true,
 						"internalType": "address",
+						"name": "enviador",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "cantidad",
+						"type": "uint256"
+					}
+				],
+				"name": "ETHRecibido",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
 						"name": "emisor",
 						"type": "address"
 					},
@@ -281,6 +300,56 @@
 					{
 						"indexed": true,
 						"internalType": "address",
+						"name": "comprador",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "cantidadTokens",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "ethGastado",
+						"type": "uint256"
+					}
+				],
+				"name": "TokensComprados",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "vendedor",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "cantidadTokens",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "ethRecibido",
+						"type": "uint256"
+					}
+				],
+				"name": "TokensVendidos",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
 						"name": "from",
 						"type": "address"
 					},
@@ -330,6 +399,19 @@
 				],
 				"name": "WhitelistConfigurada",
 				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "PRECIO_POR_TOKEN",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
 			},
 			{
 				"inputs": [],
@@ -422,6 +504,13 @@
 					}
 				],
 				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "comprarTokens",
+				"outputs": [],
+				"stateMutability": "payable",
 				"type": "function"
 			},
 			{
@@ -637,6 +726,32 @@
 						"internalType": "bool",
 						"name": "",
 						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "obtenerBalanceETHContrato",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "obtenerBalanceTokensContrato",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
 					}
 				],
 				"stateMutability": "view",
@@ -948,6 +1063,23 @@
 				],
 				"stateMutability": "nonpayable",
 				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "cantidad",
+						"type": "uint256"
+					}
+				],
+				"name": "venderTokens",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"stateMutability": "payable",
+				"type": "receive"
 			}
 		],
 		"devdoc": {
@@ -1062,11 +1194,11 @@
 	},
 	"sources": {
 		"NapTx.sol": {
-			"keccak256": "0x9a04f8af41a14fdc995339cf35160a29edcfafb0f677f50756722fb44dcb52a8",
+			"keccak256": "0x383383ba584ba53c834fb9cee26761f31d8e85e0106fe77a044a13a17872b946",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://7dffda96eda42af38568d0737a77a86b10d87724ab9a46aa5f5c9fb6ec835485",
-				"dweb:/ipfs/QmSfhrsvN4t7j3V18KxwXgQK2xxH56eVkr1qivqXXnrWK1"
+				"bzz-raw://15b001fef584db1e5caa45ea3678eb7277e86c4854a25a4d9c1682bb9eaaa705",
+				"dweb:/ipfs/QmQKv1VLDDMRD3uxzLigVZc9S71grkvpoknLgFktRVAANk"
 			]
 		},
 		"https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/interfaces/draft-IERC6093.sol": {

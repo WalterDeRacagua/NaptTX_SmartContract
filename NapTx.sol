@@ -5,6 +5,7 @@ contract OfflinePaymentSystem is ERC20 {
 
     uint256 public constant TIMEOUT_PAGO = 10 minutes;
     uint256 public constant TIMESTAMP_TOLERANCE = 5 minutes;
+    uint256 public constant PRECIO_POR_TOKEN = 1 ether;
 
     enum Estado {PREPARADO, CONFIRMADO, REVERTIDO, FALLIDO}
 
@@ -38,7 +39,7 @@ contract OfflinePaymentSystem is ERC20 {
     
 
     constructor () ERC20("NapTx Token", "NPTX"){
-        _mint(msg.sender, 1000 * 10**10);
+        _mint(msg.sender, 1000 * 10**decimals());
     }
 
 
@@ -283,6 +284,54 @@ contract OfflinePaymentSystem is ERC20 {
         return emisores[emisor].whitelist[receptor];
     }
 
+    // ====================================================================
+    // FUNCIONES - COMPRAR Y VENDER TOKENS PARA HACER PAGOS Y RECIBIR ETHER
+    // ====================================================================
+    function comprarTokens() external payable {
+        require(msg.value > 0, "Debes enviar ETH");
+        
+        uint256 tokensAComprar = (msg.value * 10**decimals()) / PRECIO_POR_TOKEN;
+        
+        require(balanceOf(address(this)) >= tokensAComprar, "No hay suficientes tokens en reserva");
+        
+        // Transferir tokens al comprador
+        _transfer(address(this), msg.sender, tokensAComprar);
+        
+        emit TokensComprados(msg.sender, tokensAComprar, msg.value);
+    }
+
+    function venderTokens(uint256 cantidad) external {
+        require(cantidad > 0, "Cantidad debe ser mayor a 0");
+        require(balanceOf(msg.sender) >= cantidad, "Balance insuficiente");
+        
+        // Calcular ETH a devolver
+        // Si vende 0.5 NPTX (500000000000) → recibe 0.5 ETH
+        uint256 ethADevolver = (cantidad * PRECIO_POR_TOKEN) / 10**decimals();
+        
+        require(address(this).balance >= ethADevolver, "Contrato sin ETH suficiente");
+        
+        // Transferir tokens al contrato
+        _transfer(msg.sender, address(this), cantidad);
+        
+        // Transferir ETH al vendedor
+        payable(msg.sender).transfer(ethADevolver);
+        
+        emit TokensVendidos(msg.sender, cantidad, ethADevolver);
+    }
+
+    receive() external payable {
+        emit ETHRecibido(msg.sender, msg.value);
+    }
+
+
+    function obtenerBalanceETHContrato() external view returns (uint256) {
+        return address(this).balance;
+    }
+
+    function obtenerBalanceTokensContrato() external view returns (uint256) {
+        return balanceOf(address(this));
+    }
+
     function transferFrom(address , address , uint256 ) public virtual override returns (bool) { 
         revert("transferFrom deshabilitado - el sistema usa _transfer internamente");
     }
@@ -304,4 +353,7 @@ contract OfflinePaymentSystem is ERC20 {
     event PagoConfirmado(bytes32 indexed pagoId, address indexed emisor, address indexed receptor, uint256 amount, bytes32 hashFinal,uint256 timestamp);
     event PagoRevertido(bytes32 indexed pagoId, address indexed emisor, address indexed receptor, uint256 amount,uint256 timestamp);
     event WhitelistConfigurada(address indexed emisor, address[] receptores, uint256[] limites, uint256 timestamp);
+    event TokensComprados(address indexed comprador, uint256 cantidadTokens, uint256 ethGastado);
+    event TokensVendidos(address indexed vendedor, uint256 cantidadTokens, uint256 ethRecibido);
+    event ETHRecibido(address indexed enviador, uint256 cantidad);
 }
