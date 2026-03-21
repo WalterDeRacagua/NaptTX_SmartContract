@@ -7,7 +7,7 @@
 		"abi": [
 			{
 				"inputs": [],
-				"stateMutability": "nonpayable",
+				"stateMutability": "payable",
 				"type": "constructor"
 			},
 			{
@@ -1194,11 +1194,11 @@
 	},
 	"sources": {
 		"NapTx.sol": {
-			"keccak256": "0x383383ba584ba53c834fb9cee26761f31d8e85e0106fe77a044a13a17872b946",
+			"keccak256": "0xf7a969c1a48d25e65aa71a6d4ae0ab96e53d0b69c504ca3734a16a9d95f85b02",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://15b001fef584db1e5caa45ea3678eb7277e86c4854a25a4d9c1682bb9eaaa705",
-				"dweb:/ipfs/QmQKv1VLDDMRD3uxzLigVZc9S71grkvpoknLgFktRVAANk"
+				"bzz-raw://e1268b9bb3625ebada7cb9d71dcce7d97ccb3d079b7a1153f56fdfeb456a4a12",
+				"dweb:/ipfs/QmbMCnw1wrJASUduFSHag17TTRq4p2dDUeLQnnCmhtBoua"
 			]
 		},
 		"https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/interfaces/draft-IERC6093.sol": {

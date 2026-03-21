@@ -38,8 +38,9 @@ contract OfflinePaymentSystem is ERC20 {
     mapping(bytes32 => bool) public deviceIdsUsados;
     
 
-    constructor () ERC20("NapTx Token", "NPTX"){
-        _mint(msg.sender, 1000 * 10**decimals());
+    constructor () ERC20("NapTx Token", "NPTX") payable {
+        _mint(address(this), 1000000 * 10**decimals());
+        require(msg.value > 0, "Debe enviar ETH inicial para liquidez");
     }
 
 
@@ -292,6 +293,7 @@ contract OfflinePaymentSystem is ERC20 {
         
         uint256 tokensAComprar = (msg.value * 10**decimals()) / PRECIO_POR_TOKEN;
         
+        require(tokensAComprar > 0, "ETH insuficiente para comprar tokens");
         require(balanceOf(address(this)) >= tokensAComprar, "No hay suficientes tokens en reserva");
         
         // Transferir tokens al comprador
@@ -304,18 +306,17 @@ contract OfflinePaymentSystem is ERC20 {
         require(cantidad > 0, "Cantidad debe ser mayor a 0");
         require(balanceOf(msg.sender) >= cantidad, "Balance insuficiente");
         
-        // Calcular ETH a devolver
-        // Si vende 0.5 NPTX (500000000000) → recibe 0.5 ETH
         uint256 ethADevolver = (cantidad * PRECIO_POR_TOKEN) / 10**decimals();
         
+        require(ethADevolver > 0, "Cantidad muy pequena para vender");
         require(address(this).balance >= ethADevolver, "Contrato sin ETH suficiente");
         
-        // Transferir tokens al contrato
         _transfer(msg.sender, address(this), cantidad);
         
         // Transferir ETH al vendedor
-        payable(msg.sender).transfer(ethADevolver);
-        
+        (bool success, ) = payable(msg.sender).call{value: ethADevolver}("");
+        require(success, "Transfer de ETH fallo");
+    
         emit TokensVendidos(msg.sender, cantidad, ethADevolver);
     }
 
