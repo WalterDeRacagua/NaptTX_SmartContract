@@ -235,7 +235,8 @@ contract OfflinePaymentSystem is ERC20 {
         address firmante = recuperarFirmante(mensaje, firmaConfirmacion);
         require(firmante == pago.emisor, "Confirmacion invalida");
 
-        _transfer(pago.emisor, pago.receptor, pago.amount);
+        bool success = transferFrom(pago.emisor, pago.receptor, pago.amount);
+        require(success, "Transfer fallo");
 
         hashFinal = keccak256(abi.encodePacked(
             pago.hashUsado,
@@ -249,9 +250,6 @@ contract OfflinePaymentSystem is ERC20 {
         emisores[pago.emisor].timestampUltimoPago = block.timestamp;
 
         emisores[pago.emisor].whitelist[pago.receptor] -= pago.amount;
-
-        require(allowance(pago.emisor, address(this)) >= pago.amount, "Allowance insuficiente");
-        _approve(pago.emisor, address(this), allowance(pago.emisor, address(this)) - pago.amount);
 
         pago.hashFinal = hashFinal;
         pago.timestampConfirmacion = block.timestamp;
@@ -333,19 +331,8 @@ contract OfflinePaymentSystem is ERC20 {
         return balanceOf(address(this));
     }
 
-    function transferFrom(address , address , uint256 ) public virtual override returns (bool) { 
-        revert("transferFrom deshabilitado - el sistema usa _transfer internamente");
-    }
-
     function transfer(address , uint256 ) public virtual override returns (bool) {
         revert("transfer deshabilitado - usar sistema de pagos offline");
-    }
-    function increaseAllowance(address , uint256 ) public pure returns (bool) {
-        revert("Use configurarWhitelist para gestionar allowance");
-    }
-
-    function decreaseAllowance(address , uint256 ) public pure returns (bool) {
-        revert("Use configurarWhitelist para gestionar allowance");
     }
 
     // EVENTOS

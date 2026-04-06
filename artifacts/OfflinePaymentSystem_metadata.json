@@ -591,30 +591,6 @@
 			{
 				"inputs": [
 					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "decreaseAllowance",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "",
-						"type": "bool"
-					}
-				],
-				"stateMutability": "pure",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
 						"internalType": "bytes32",
 						"name": "",
 						"type": "bytes32"
@@ -668,30 +644,6 @@
 					}
 				],
 				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "increaseAllowance",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "",
-						"type": "bool"
-					}
-				],
-				"stateMutability": "pure",
 				"type": "function"
 			},
 			{
@@ -1039,17 +991,17 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "",
+						"name": "from",
 						"type": "address"
 					},
 					{
 						"internalType": "address",
-						"name": "",
+						"name": "to",
 						"type": "address"
 					},
 					{
 						"internalType": "uint256",
-						"name": "",
+						"name": "value",
 						"type": "uint256"
 					}
 				],
@@ -1167,6 +1119,9 @@
 				},
 				"totalSupply()": {
 					"details": "Returns the value of tokens in existence."
+				},
+				"transferFrom(address,address,uint256)": {
+					"details": "See {IERC20-transferFrom}. Skips emitting an {Approval} event indicating an allowance update. This is not required by the ERC. See {xref-ERC20-_approve-address-address-uint256-bool-}[_approve]. NOTE: Does not update the allowance if the current allowance is the maximum `uint256`. Requirements: - `from` and `to` cannot be the zero address. - `from` must have a balance of at least `value`. - the caller must have allowance for ``from``'s tokens of at least `value`."
 				}
 			},
 			"version": 1
@@ -1194,11 +1149,11 @@
 	},
 	"sources": {
 		"NapTx.sol": {
-			"keccak256": "0xf7a969c1a48d25e65aa71a6d4ae0ab96e53d0b69c504ca3734a16a9d95f85b02",
+			"keccak256": "0x45a13c24090ae31f7a316d51f10ec84c6c2ffec709ffacf6ede346d2cb47a5e5",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://e1268b9bb3625ebada7cb9d71dcce7d97ccb3d079b7a1153f56fdfeb456a4a12",
-				"dweb:/ipfs/QmbMCnw1wrJASUduFSHag17TTRq4p2dDUeLQnnCmhtBoua"
+				"bzz-raw://02daeed8942f79ec12ad1555e23ffd302392ceb7aa69fd3ba6dab0536bddfe2f",
+				"dweb:/ipfs/QmQCmo4QFzpbZocYvrw89tBbgwjm1xKxLBS467su3J7hT8"
 			]
 		},
 		"https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/interfaces/draft-IERC6093.sol": {
