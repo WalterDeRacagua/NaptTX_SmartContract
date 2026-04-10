@@ -142,17 +142,12 @@ contract OfflinePaymentSystem is ERC20 {
         address firmante = recuperarFirmante(mensaje, firma);
         require(firmante == emisor, "Firma invalida");
 
-        uint256 sumaTotal =0;
-        for (uint i =0; i < receptores.length; i++) 
+        for (uint i = 0; i < receptores.length; i++) 
         {
-            sumaTotal += limites[i];
-        }
-
-        uint256 allowanceActual = allowance(emisor, address(this));
-        require(sumaTotal <= allowanceActual, "Suma > allowance");
-
-        for (uint i =0; i < receptores.length; i++) 
-        {
+            require(
+                allowance(emisor, receptores[i]) >= limites[i],
+                "Allowance insuficiente para receptor"
+            );
             emisores[emisor].whitelist[receptores[i]] = limites[i];
         }
 
@@ -181,7 +176,7 @@ contract OfflinePaymentSystem is ERC20 {
         require(block.timestamp <= timestamp + TIMESTAMP_TOLERANCE, "Timestamp expirado");
         require(!noncesUsados[emisor][nonce], "Nonce ya usado");
         require(emisores[emisor].whitelist[receptor] >= amount, "Excede limites");
-        require(allowance(emisor, address(this)) >= amount, "Allowance insuficiente");
+        require(allowance(emisor, receptor) >= amount, "Allowance insuficiente");
         require(balanceOf(emisor) >= amount, "Balance insuficiente");
 
         pagoId = keccak256(abi.encodePacked(
